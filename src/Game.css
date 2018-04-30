@@ -1,0 +1,7 @@
+.color {
+  outline: none;
+}
+
+.color:active {
+  opacity: 0.8;
+}
