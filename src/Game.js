@@ -9,10 +9,10 @@ import './Game.css';
 //  4. ! if pressed wrong button, restart series (with same sequence)
 //  5. ! start game with one additional color in sequence
 
-const GREEN = '#00a74a';
-const RED = '#9f0f17';
-const YELLOW = '#cca707';
-const BLUE = '#094a8f';
+const GREEN = '#7cbb00';
+const RED = '#f65314';
+const YELLOW = '#ffbb00';
+const BLUE = '#00a1f1';
 const COLORARR = [GREEN, RED, YELLOW, BLUE];
 const SOUND1 = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3');
 const SOUND2 = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3');
@@ -23,8 +23,8 @@ const SOUNDS = [SOUND1, SOUND2, SOUND3, SOUND4];
 const Button = props => {
 	return (
 		<button
-			className="color"
-			style={{ backgroundColor: props.color, width: '88px', height: '88px', color: 'white' }}
+      className={props.className}
+			style={{ backgroundColor: props.color, width: '150px', height: '150px', color: 'white' }}
 			onMouseDown={props.onMouseDown}
 			disabled={!props.clickable}
 			id={props.index}
@@ -40,7 +40,8 @@ class Game extends Component {
 			sequence: [],
 			stepCount: 0,
 			buttonClickable: false,
-			intervalKey: null
+      intervalKey: null,
+      gameStarted: false
 		};
 	}
 
@@ -66,19 +67,22 @@ class Game extends Component {
 				clearInterval(interval);
 				console.log('lightup interval cleared');
 			}
-    }, 1200);
-    // set intervalKey for clearing setInterval when click wrong button
+		}, 1200);
+		// set intervalKey for clearing setInterval when click wrong button
 		this.setState({ intervalKey: interval });
 	};
 
 	// when click 'start' button, display sequence & set button to clickable once finished
 	startGame = addNewColor => {
+    this.setState({
+      gameStarted: true
+    })
 		if (addNewColor) {
 			// at beginning of each round, push one random color to sequence
 			const sequence = this.state.sequence;
 			sequence.push(generateNextColor(COLORARR));
-      this.setState({ sequence });
-      console.log('added')
+			this.setState({ sequence });
+			console.log('added');
 		}
 		// play sequence
 		this.lightUp();
@@ -92,12 +96,12 @@ class Game extends Component {
 		// 1 clear interval using this.state.intervalKey
 		// 2 wait 500ms to restart game // TODO - flash indicator to indicate wrong input
 		clearInterval(this.state.intervalKey);
-    this.setState({
-      buttonClickable: false,
-      intervalKey: null,
-      stepCount: 0
-    })
-    this.startGame(false);
+		this.setState({
+			buttonClickable: false,
+			intervalKey: null,
+			stepCount: 0
+		});
+		this.startGame(false);
 	};
 
 	handleColorMouseDown = (color, index) => {
@@ -109,21 +113,23 @@ class Game extends Component {
 		playSoundAtIndex(index);
 		if (color !== sequence[stepCount]) {
 			// if clicked on wrong color, reset game // TODO - reset game
-      this.restartSequence();
-      return;
+			this.restartSequence();
+			return;
 		}
 
 		// check if last color in sequence. if so, restart game
 		const newStepCount = stepCount + 1;
 		if (newStepCount === sequence.length) {
-			// if at last sequence, 1 reset stepCount, 2 add a new color to sequence, and 3 call start() to restart game
-			this.setState(prevState => {
-				return {
-					stepCount: 0,
-					buttonClickable: false
-				};
-			});
-			this.startGame(true);
+			setTimeout(() => {
+				// if at last sequence, 1 reset stepCount, 2 add a new color to sequence, and 3 call start() to restart game
+				this.setState(prevState => {
+					return {
+						stepCount: 0,
+						buttonClickable: false
+					};
+				});
+				this.startGame(true);
+			}, 1000);
 			return;
 		}
 		this.setState({ stepCount: newStepCount });
@@ -134,6 +140,7 @@ class Game extends Component {
 			return (
 				<Button
 					style={{ backgroundColor: buttonColor, width: '40px', height: '40px' }}
+					className={'colorBtn ' + 'color' + index}
 					color={buttonColor}
 					key={index}
 					onMouseDown={() => this.handleColorMouseDown(buttonColor, index)}
@@ -143,12 +150,24 @@ class Game extends Component {
 			);
 		});
 		return (
-			<div>
-				{buttons}
-				<button className="startBtn" onClick={this.startGame}>
-					Start
-				</button>
-        <p>{this.state.sequence.length}</p>
+			<div className="container">
+				<div className="sidebar">
+					<h1>Windows Square</h1>
+					<h3>High Score: 0</h3>
+					<h3>
+						Current Round: <span className="currentRound">{this.state.sequence.length}</span>
+					</h3>
+					<h3>
+						Strict<span>✔</span>
+					</h3>
+					<button className="gameBtn" onClick={this.startGame} disabled={this.state.gameStarted} style={this.state.gameStarted ? { opacity: '0.5' } : null}>
+						Start Game
+					</button>
+					<button className="gameBtn" onClick={this.endGame}>
+						End Game
+					</button>
+				</div>
+				<div className="game">{buttons}</div>
 			</div>
 		);
 	}
@@ -164,6 +183,6 @@ function generateNextColor(colors) {
 
 // play audio
 function playSoundAtIndex(index) {
-  SOUNDS[index].load();
-  SOUNDS[index].play();
+	SOUNDS[index].load();
+	SOUNDS[index].play();
 }
