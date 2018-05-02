@@ -1,11 +1,80 @@
-.color {
-  outline: none;
-}
-
-.color:active {
-  opacity: 0.6;
-}
-
 .lightup {
   opacity: 0.6;
+}
+
+h1 {
+  font-size: 48px;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sidebar {
+  min-width: 280px;
+  text-align: center;
+  padding-top: 90px;
+  background-color: #131313;
+  height: 100%;
+  position: relative;
+  left: 10%;
+  display: inline-block;
+}
+
+.sidebar * {
+  margin-top: 15px;
+}
+
+.gameBtn {
+  border: 1px solid #b4ff69;
+  background-color: #131313;
+  color: #e8e8e8;
+  border-radius: 5px;
+  display: block;
+  position: relative;
+  left: 33%;
+  margin: 0;
+  margin-top: 42px;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  width: 100px;
+  height: 40px;
+  font-family: 'Cute Font', sans-serif;
+  font-size: 22px;
+}
+
+.gameBtn:active {
+  background-color: #b4ff69;
+  color: #131313;
+}
+
+.game {
+  padding-bottom: 20px;
+  height: 50%;
+  width: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  top: 90px;
+  left: 17%;
+}
+
+.colorBtn {
+  outline: none;
+  border: #1c1c1c;
+  margin: 20px;
+  display: inline-block;
+  border-radius: 5px;
+}
+
+.colorBtn:active {
+  opacity: 0.6;
+}
+
+@media screen and (min-width: 1200px) {
+
 }
