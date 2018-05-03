@@ -14,6 +14,9 @@ import './Game.css';
 //  2. set high score
 //  3.
 
+// fix strict mode bug
+// display game message (wrong input, starting, etc.)
+
 const GREEN = '#7cbb00';
 const RED = '#f65314';
 const YELLOW = '#ffbb00';
@@ -47,8 +50,8 @@ class Game extends Component {
 			buttonClickable: false,
 			intervalKey: null,
 			gameStarted: false,
-      highScore: 0,
-      isStrict: false,
+			highScore: 0,
+			isStrict: false
 		};
 	}
 
@@ -85,18 +88,20 @@ class Game extends Component {
 			gameStarted: true
 		});
 		if (addNewColor) {
-			// at beginning of each round, push one random color to sequence
 			const sequence = this.state.sequence;
 			sequence.push(generateNextColor(COLORARR));
+			// at beginning of each round, push one random color to sequence
 			this.setState({ sequence });
-			console.log('added');
+			console.log('new color added');
 		}
+
 		// play sequence
 		this.lightUp();
 		// wait until lightup finished then make button clickable
 		setTimeout(() => {
 			this.setState({ buttonClickable: true });
 		}, 1200 * this.state.sequence.length + 500);
+		return;
 	};
 
 	// ending game
@@ -106,19 +111,45 @@ class Game extends Component {
 		// 2. retrieve high score for tweet
 	};
 
-	restartSequence = () => {
-		// 1 clear interval using this.state.intervalKey
-		// 2 wait 500ms to restart game // TODO - flash indicator to indicate wrong input
-		clearInterval(this.state.intervalKey);
+	resetGame = () => {
 		this.setState({
 			buttonClickable: false,
 			intervalKey: null,
-			stepCount: 0
+			stepCount: 0,
+			sequence: [generateNextColor(COLORARR)]
 		});
 		this.startGame(false);
 	};
 
-	// share twitter
+	// toggle Strict mode
+	toggleStrict = () => {
+		this.setState(prevState => {
+			return { isStrict: !prevState.isStrict };
+		});
+		return;
+	};
+
+	restartSequence = () => {
+		clearInterval(this.state.intervalKey);
+		if (this.state.isStrict) {
+			this.resetGame();
+			return;
+		}
+		// 1 clear interval using this.state.intervalKey
+		// 2 wait 500ms to restart game // TODO - flash indicator to indicate wrong input
+		this.setState(prevState => {
+			return {
+				buttonClickable: false,
+				intervalKey: null,
+				stepCount: 0
+			};
+		});
+		// if strict mode, reset sequence
+		this.startGame(false);
+		return;
+	};
+
+	// tweet function
 	shareTwitter = () => {
 		// connect twitter
 		let tweetURL = 'http://twitter.com/home?status=';
@@ -137,7 +168,7 @@ class Game extends Component {
 		// .load() fixes problem of audio playing only once
 		playSoundAtIndex(index);
 		if (color !== sequence[stepCount]) {
-			// if clicked on wrong color, reset game // TODO - reset game
+			// if clicked on wrong color:
 			this.restartSequence();
 			return;
 		}
@@ -162,6 +193,7 @@ class Game extends Component {
 			return;
 		}
 		this.setState({ stepCount: newStepCount });
+		return;
 	};
 
 	render() {
@@ -182,12 +214,19 @@ class Game extends Component {
 			<div className="container">
 				<div className="sidebar">
 					<h1>Windows Square</h1>
-					<h3>High Score: {this.state.highScore}</h3>
+					<h3>
+						High Score: <span className="highScore">{this.state.highScore}</span>
+					</h3>
 					<h3>
 						Current Round: <span className="currentRound">{this.state.sequence.length}</span>
 					</h3>
-					<h3>
-						Strict<span className="checkbox"><span className="check">✔</span></span>
+					<h3 style={{ display: 'none' }}>
+						Strict
+						<span className="checkbox" onClick={this.toggleStrict}>
+							<span className="check" style={this.state.isStrict ? { opacity: '1' } : { opacity: '0' }}>
+								✔
+							</span>
+						</span>
 					</h3>
 					<button
 						className="gameBtn"
@@ -200,9 +239,16 @@ class Game extends Component {
 					<button className="gameBtn" onClick={this.endGame}>
 						End Game
 					</button>
-					<img src={twitterLogo} alt="twitter" onClick={this.shareTwitter} />
+					<div className="twitter">
+						Tweet your high score!<img src={twitterLogo} alt="twitter" onClick={this.shareTwitter} />
+					</div>
 				</div>
-				<div className="game">{buttons}</div>
+				<div className="game">
+					{/* <div className="game-info">
+              {}
+          </div> */}
+					{buttons}
+				</div>
 			</div>
 		);
 	}
