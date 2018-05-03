@@ -1,8 +1,10 @@
 # simon-game
 
-  A clone of the classic Simon Game, as a tribute to Microsoft Windows' color scheme.
+  '**Windows Square**' clone of the classic Simon Game, as a tribute to Microsoft Windows' color scheme.
 
   A working demo of this game is available via [codepen](https://codepen.io/mhijack/full/YLxPvq/).
+
+  ![Windows Square](./pictures/gameOver-screenshot.png?raw=true "Windows Square")
 
 # Features
   * User is presented with a random series of button presses
