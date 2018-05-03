@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+	Component
+} from 'react';
 import twitterLogo from './assets/twitter.png';
 import './Game.css';
 
@@ -27,6 +29,12 @@ const SOUND2 = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3'
 const SOUND3 = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3');
 const SOUND4 = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3');
 const SOUNDS = [SOUND1, SOUND2, SOUND3, SOUND4];
+const MESSAGE = {
+	'gameOver': 'Game Over',
+	'wrong': 'Oops.',
+	'correct': 'Correct!',
+	'won': 'You\' beaten the game!'
+};
 
 const Button = props => {
 	return (
@@ -45,13 +53,14 @@ class Game extends Component {
 		super(props);
 		this.state = {
 			colors: COLORARR,
-			sequence: [],
+			sequence: Array(19).fill(generateNextColor(COLORARR)),
 			stepCount: 0,
 			buttonClickable: false,
 			intervalKey: null,
 			gameStarted: false,
 			highScore: 0,
-			isStrict: false
+			isStrict: false,
+			gameMessage: ''
 		};
 	}
 
@@ -79,81 +88,81 @@ class Game extends Component {
 			}
 		}, 1200);
 		// set intervalKey for clearing setInterval when click wrong button
-		this.setState({ intervalKey: interval });
+		this.setState({
+			intervalKey: interval
+		});
 	};
 
 	// when click 'start' button, display sequence & set button to clickable once finished
 	startGame = addNewColor => {
 		this.setState({
-			gameStarted: true
+			gameStarted: true,
+			gameMessage: '',
 		});
-		if (addNewColor) {
+		// if clicked correct AND we're at length 20, don't add new color, instead game won
+		if (addNewColor && this.state.sequence.length >= 20) {
+			this.endGame();
+			return;
+		} else if (addNewColor) {
 			const sequence = this.state.sequence;
 			sequence.push(generateNextColor(COLORARR));
 			// at beginning of each round, push one random color to sequence
-			this.setState({ sequence });
-			console.log('new color added');
+			this.setState({
+				sequence,
+			});
 		}
 
 		// play sequence
 		this.lightUp();
 		// wait until lightup finished then make button clickable
 		setTimeout(() => {
-			this.setState({ buttonClickable: true });
+			this.setState({
+				buttonClickable: true
+			});
 		}, 1200 * this.state.sequence.length + 500);
 		return;
 	};
 
 	// ending game
 	endGame = () => {
-    clearInterval(this.state.intervalKey);
-    this.setState({
-      colors: COLORARR,
+		clearInterval(this.state.intervalKey);
+		const sequenceLength = this.state.sequence.length;
+		this.setState({
 			sequence: [],
 			stepCount: 0,
 			buttonClickable: false,
 			intervalKey: null,
 			gameStarted: false,
-			isStrict: false
-    })
-	};
-
-	resetGame = () => {
-		this.setState({
-			buttonClickable: false,
-			intervalKey: null,
-			stepCount: 0,
-			sequence: [generateNextColor(COLORARR)]
+			isStrict: false,
+			gameMessage: sequenceLength >= 20 ? MESSAGE['won'] : MESSAGE['gameOver'],
 		});
-		this.startGame(false);
 	};
 
 	// toggle Strict mode
 	toggleStrict = () => {
 		this.setState(prevState => {
-			return { isStrict: !prevState.isStrict };
+			return {
+				isStrict: !prevState.isStrict
+			};
 		});
 		return;
 	};
 
 	restartSequence = () => {
 		clearInterval(this.state.intervalKey);
-		if (this.state.isStrict) {
-			this.resetGame();
-			return;
-		}
 		// 1 clear interval using this.state.intervalKey
 		// 2 wait 500ms to restart game // TODO - flash indicator to indicate wrong input
+		setTimeout(() => {
+			this.startGame(false);
+		}, 2000);
 		this.setState(prevState => {
 			return {
 				buttonClickable: false,
 				intervalKey: null,
-				stepCount: 0
+				stepCount: 0,
 			};
 		});
-		// if strict mode, reset sequence
-		this.startGame(false);
-		return;
+
 	};
 
 	// tweet function
@@ -176,13 +185,26 @@ class Game extends Component {
 		playSoundAtIndex(index);
 		if (color !== sequence[stepCount]) {
 			// if clicked on wrong color:
+			// if strict, game over
+			if (this.state.isStrict) {
+				// if strict mode, end game // TODO - flash message to indicate user
+				this.endGame();
+				return;
+			}
+			// if not strict, restart sequence
 			this.restartSequence();
+			this.setState({
+				gameMessage: MESSAGE['wrong']
+			});
 			return;
 		}
 
 		// check if last color in sequence. if so, restart game
 		const newStepCount = stepCount + 1;
 		if (newStepCount === sequence.length) {
+			this.setState({
+				gameMessage: MESSAGE['correct']
+			})
 			setTimeout(() => {
 				// set highScore
 				const previousHighScore = this.state.highScore;
@@ -196,10 +218,12 @@ class Game extends Component {
 					};
 				});
 				this.startGame(true);
-			}, 1000);
+			}, 2000);
 			return;
 		}
-		this.setState({ stepCount: newStepCount });
+		this.setState({
+			stepCount: newStepCount,
+		});
 		return;
 	};
 
@@ -227,7 +251,7 @@ class Game extends Component {
 					<h3>
 						Current Round: <span className="currentRound">{this.state.sequence.length}</span>
 					</h3>
-					<h3 style={{ display: 'none' }}>
+					<h3>
 						Strict
 						<span className="checkbox" onClick={this.toggleStrict}>
 							<span className="check" style={this.state.isStrict ? { opacity: '1' } : { opacity: '0' }}>
@@ -255,6 +279,7 @@ class Game extends Component {
               {}
           </div> */}
 					{buttons}
+					{this.state.gameMessage}
 				</div>
 			</div>
 		);

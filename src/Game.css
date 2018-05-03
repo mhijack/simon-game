@@ -8,8 +8,11 @@ h1 {
 
 .container {
   height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
 .sidebar {
@@ -89,8 +92,9 @@ h1 {
   cursor: pointer;
   width: 38px;
   height: 38px;
+  -webkit-transition: 0.3s ease;
+  -o-transition: 0.3s ease;
   transition: 0.3s ease;
-  opacity: 1;
   margin: 7px auto;
   border: 2px solid #1DA1F2;
   border-radius: 20%;
@@ -104,9 +108,14 @@ h1 {
 .game {
   height: 400px;
   width: 450px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   position: relative;
   top: 100px;
   left: 15%;
