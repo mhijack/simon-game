@@ -274,7 +274,7 @@ class Game extends Component {
 						End Game
 					</button>
 					<div className="twitter">
-						Tweet your high score!<img src={twitterLogo} alt="twitter" onClick={this.shareTwitter} />
+						Tweet your high score!<img src={twitterLogo} alt="tweet high score" onClick={this.shareTwitter} />
 					</div>
 				</div>
 				<div className="game">
