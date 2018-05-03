@@ -53,14 +53,14 @@ class Game extends Component {
 		super(props);
 		this.state = {
 			colors: COLORARR,
-			sequence: Array(19).fill(generateNextColor(COLORARR)),
+			sequence: [],
 			stepCount: 0,
 			buttonClickable: false,
 			intervalKey: null,
 			gameStarted: false,
 			highScore: 0,
 			isStrict: false,
-			gameMessage: ''
+			gameMessage: '',
 		};
 	}
 
