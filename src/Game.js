@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import twitterLogo from './assets/twitter.png';
 import './Game.css';
 
 // # TODO
@@ -8,6 +9,10 @@ import './Game.css';
 //  3. ! when color button is clicked, 1 play sound 2 log color
 //  4. ! if pressed wrong button, restart series (with same sequence)
 //  5. ! start game with one additional color in sequence
+//  6. end game:
+//  1. show twitter share info
+//  2. set high score
+//  3.
 
 const GREEN = '#7cbb00';
 const RED = '#f65314';
@@ -23,7 +28,7 @@ const SOUNDS = [SOUND1, SOUND2, SOUND3, SOUND4];
 const Button = props => {
 	return (
 		<button
-      className={props.className}
+			className={props.className}
 			style={{ backgroundColor: props.color, width: '150px', height: '150px', color: 'white' }}
 			onMouseDown={props.onMouseDown}
 			disabled={!props.clickable}
@@ -40,8 +45,10 @@ class Game extends Component {
 			sequence: [],
 			stepCount: 0,
 			buttonClickable: false,
-      intervalKey: null,
-      gameStarted: false
+			intervalKey: null,
+			gameStarted: false,
+      highScore: 0,
+      isStrict: false,
 		};
 	}
 
@@ -74,9 +81,9 @@ class Game extends Component {
 
 	// when click 'start' button, display sequence & set button to clickable once finished
 	startGame = addNewColor => {
-    this.setState({
-      gameStarted: true
-    })
+		this.setState({
+			gameStarted: true
+		});
 		if (addNewColor) {
 			// at beginning of each round, push one random color to sequence
 			const sequence = this.state.sequence;
@@ -92,6 +99,13 @@ class Game extends Component {
 		}, 1200 * this.state.sequence.length + 500);
 	};
 
+	// ending game
+	endGame = () => {
+		// TODO
+		// 1. show twitter box
+		// 2. retrieve high score for tweet
+	};
+
 	restartSequence = () => {
 		// 1 clear interval using this.state.intervalKey
 		// 2 wait 500ms to restart game // TODO - flash indicator to indicate wrong input
@@ -102,6 +116,17 @@ class Game extends Component {
 			stepCount: 0
 		});
 		this.startGame(false);
+	};
+
+	// share twitter
+	shareTwitter = () => {
+		// connect twitter
+		let tweetURL = 'http://twitter.com/home?status=';
+		let message =
+			tweetURL +
+			encodeURIComponent(`My Windows Simon high score is ${this.state.highScore}! @freeCodeCamp @jianyuan94`);
+		window.open(message);
+		return false;
 	};
 
 	handleColorMouseDown = (color, index) => {
@@ -121,11 +146,15 @@ class Game extends Component {
 		const newStepCount = stepCount + 1;
 		if (newStepCount === sequence.length) {
 			setTimeout(() => {
+				// set highScore
+				const previousHighScore = this.state.highScore;
+				const currentScore = this.state.stepCount + 1;
 				// if at last sequence, 1 reset stepCount, 2 add a new color to sequence, and 3 call start() to restart game
 				this.setState(prevState => {
 					return {
 						stepCount: 0,
-						buttonClickable: false
+						buttonClickable: false,
+						highScore: currentScore > previousHighScore ? currentScore : previousHighScore
 					};
 				});
 				this.startGame(true);
@@ -153,19 +182,25 @@ class Game extends Component {
 			<div className="container">
 				<div className="sidebar">
 					<h1>Windows Square</h1>
-					<h3>High Score: 0</h3>
+					<h3>High Score: {this.state.highScore}</h3>
 					<h3>
 						Current Round: <span className="currentRound">{this.state.sequence.length}</span>
 					</h3>
 					<h3>
-						Strict<span>✔</span>
+						Strict<span className="checkbox"><span className="check">✔</span></span>
 					</h3>
-					<button className="gameBtn" onClick={this.startGame} disabled={this.state.gameStarted} style={this.state.gameStarted ? { opacity: '0.5' } : null}>
+					<button
+						className="gameBtn"
+						onClick={this.startGame}
+						disabled={this.state.gameStarted}
+						style={this.state.gameStarted ? { opacity: '0.3' } : null}
+					>
 						Start Game
 					</button>
 					<button className="gameBtn" onClick={this.endGame}>
 						End Game
 					</button>
+					<img src={twitterLogo} alt="twitter" onClick={this.shareTwitter} />
 				</div>
 				<div className="game">{buttons}</div>
 			</div>
