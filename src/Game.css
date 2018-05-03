@@ -71,6 +71,10 @@ h1 {
   font-size: 22px;
 }
 
+.gameBtn:hover:disabled {
+  cursor: no-drop;
+}
+
 .gameBtn:first-of-type {
   margin-top: 40px;
 }
