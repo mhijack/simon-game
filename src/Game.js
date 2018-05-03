@@ -106,9 +106,16 @@ class Game extends Component {
 
 	// ending game
 	endGame = () => {
-		// TODO
-		// 1. show twitter box
-		// 2. retrieve high score for tweet
+    clearInterval(this.state.intervalKey);
+    this.setState({
+      colors: COLORARR,
+			sequence: [],
+			stepCount: 0,
+			buttonClickable: false,
+			intervalKey: null,
+			gameStarted: false,
+			isStrict: false
+    })
 	};
 
 	resetGame = () => {
