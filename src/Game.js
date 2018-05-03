@@ -61,6 +61,7 @@ class Game extends Component {
 			highScore: 0,
 			isStrict: false,
 			gameMessage: '',
+			timeOutKey: null
 		};
 	}
 
@@ -115,17 +116,19 @@ class Game extends Component {
 		// play sequence
 		this.lightUp();
 		// wait until lightup finished then make button clickable
-		setTimeout(() => {
+		const timeOutKey = setTimeout(() => {
 			this.setState({
 				buttonClickable: true
 			});
 		}, 1200 * this.state.sequence.length + 500);
+		this.setState({ timeOutKey })
 		return;
 	};
 
 	// ending game
 	endGame = () => {
 		clearInterval(this.state.intervalKey);
+		clearTimeout(this.state.timeOutKey);
 		const sequenceLength = this.state.sequence.length;
 		this.setState({
 			sequence: [],
@@ -267,7 +270,7 @@ class Game extends Component {
 					>
 						Start Game
 					</button>
-					<button className="gameBtn" onClick={this.endGame}>
+					<button className="gameBtn" onClick={this.endGame} disabled={!this.state.gameStarted} style={this.state.gameStarted ? null : { opacity: '0.3' }}>
 						End Game
 					</button>
 					<div className="twitter">
@@ -275,11 +278,8 @@ class Game extends Component {
 					</div>
 				</div>
 				<div className="game">
-					{/* <div className="game-info">
-              {}
-          </div> */}
 					{buttons}
-					{this.state.gameMessage}
+					<div>{this.state.gameMessage}</div>
 				</div>
 			</div>
 		);
