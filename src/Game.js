@@ -29,6 +29,10 @@ const SOUND2 = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3'
 const SOUND3 = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3');
 const SOUND4 = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3');
 const SOUNDS = [SOUND1, SOUND2, SOUND3, SOUND4];
+// load audio
+for (let sound of SOUNDS) {
+	sound.load();
+}
 const MESSAGE = {
 	'gameOver': 'Game Over',
 	'wrong': 'Oops.',
@@ -40,7 +44,7 @@ const Button = props => {
 	return (
 		<button
 			className={props.className}
-			style={{ backgroundColor: props.color, width: '150px', height: '150px', color: 'white' }}
+			style={{ backgroundColor: props.color, color: 'white' }}
 			onMouseDown={props.onMouseDown}
 			disabled={!props.clickable}
 			id={props.index}
@@ -84,8 +88,8 @@ class Game extends Component {
 			}, 800);
 			count += 1;
 			if (count >= sequence.length) {
+				// clears lightup interval once all lights in sequence are done
 				clearInterval(interval);
-				console.log('lightup interval cleared');
 			}
 		}, 1200);
 		// set intervalKey for clearing setInterval when click wrong button
@@ -234,7 +238,7 @@ class Game extends Component {
 		const buttons = this.state.colors.map((buttonColor, index) => {
 			return (
 				<Button
-					style={{ backgroundColor: buttonColor, width: '40px', height: '40px' }}
+					style={{ backgroundColor: buttonColor }}
 					className={'colorBtn ' + 'color' + index}
 					color={buttonColor}
 					key={index}
@@ -262,24 +266,26 @@ class Game extends Component {
 							</span>
 						</span>
 					</h3>
-					<button
-						className="gameBtn"
-						onClick={this.startGame}
-						disabled={this.state.gameStarted}
-						style={this.state.gameStarted ? { opacity: '0.3' } : null}
-					>
-						Start Game
-					</button>
-					<button className="gameBtn" onClick={this.endGame} disabled={!this.state.gameStarted} style={this.state.gameStarted ? null : { opacity: '0.3' }}>
-						End Game
-					</button>
+					<div className="ctrlBtn">
+						<button
+							className="gameBtn"
+							onClick={this.startGame}
+							disabled={this.state.gameStarted}
+							style={this.state.gameStarted ? { opacity: '0.3' } : null}
+						>
+							Start
+						</button>
+						<button className="gameBtn" onClick={this.endGame} disabled={!this.state.gameStarted} style={this.state.gameStarted ? null : { opacity: '0.3' }}>
+							End
+						</button>
+					</div>
+					<div className="message">{this.state.gameMessage}</div>
 					<div className="twitter">
 						Tweet your high score!<img src={twitterLogo} alt="tweet high score" onClick={this.shareTwitter} />
 					</div>
 				</div>
 				<div className="game">
 					{buttons}
-					<div>{this.state.gameMessage}</div>
 				</div>
 			</div>
 		);
@@ -296,6 +302,5 @@ function generateNextColor(colors) {
 
 // play audio
 function playSoundAtIndex(index) {
-	SOUNDS[index].load();
 	SOUNDS[index].play();
 }
