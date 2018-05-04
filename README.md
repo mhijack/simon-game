@@ -15,3 +15,4 @@
   * User can end the current game session at any time and start over
   * **Strict Mode:** game session will reset once the user presses the wrong button (current step go down to 0)
   * User can win the game by getting a series of 20 steps correct
+  * **Fits both large and small screens (break point at 845px)**
