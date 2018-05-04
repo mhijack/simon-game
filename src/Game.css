@@ -51,7 +51,7 @@ h1 {
   display: block;
   position: relative;
   left: 33%;
-  top: 18px;
+  top: 40px;
   margin: 0;
   margin-top: 20px;
   padding: 0;
@@ -72,9 +72,6 @@ h1 {
   background-color: #b4ff69;
   color: #131313;
 }
-.sidebar .twitter {
-  margin-top: 66px;
-}
 .sidebar img {
   display: block;
   cursor: pointer;
@@ -89,22 +86,33 @@ h1 {
   border: dotted #1DA1F2;
   border-radius: 50%;
 }
+.sidebar .message {
+  margin-top: 80px;
+  height: 60px;
+  font-size: 48px;
+}
+.sidebar .twitter {
+
+}
 .game {
-  height: 400px;
+  height: 450px;
   width: 450px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-evenly;
   position: relative;
-  top: 100px;
+  top: 75px;
   left: 15%;
-  background-clip: padding-box;
+  padding: 0;
+  margin: 30px;
 }
 .colorBtn {
+  width: 40%;
+  height: 40%;
+  margin: 0 15px;
+  padding: 0;
   outline: none;
   border: #1c1c1c;
-  margin: 25px;
-  display: inline-block;
   border-radius: 5px;
 }
 .colorBtn:hover:enabled {
@@ -117,10 +125,17 @@ h1 {
   color: red;
 }
 
+
 @media screen and (max-width: 845px) {
+  body {
+    font-size: 1.5em;
+  }
+  h1 {
+    font-size: 1.5em;
+  }
   .sidebar {
-    height: 250px;
-    width: 400px;
+    width: 300px;
+    height: 20%;
     margin: 0 auto;
     padding-top: 80px;
     background-color: #1c1c1c;
@@ -132,17 +147,39 @@ h1 {
   .sidebar * {
     margin-top: 0px;
   }
-  .sidebar .gameBtn {
-    top: -20px;
-    left: 37%;
-    margin-top: 10px;
+  .sidebar .checkbox {
+    width: 20px;
+    height: 20px;
+    top: 5px;
   }
-  .sidebar .twitter {
-    margin-top: -10px;
+  .sidebar .checkbox .check {
+    top: -3px;
+  }
+  .sidebar .ctrlBtn {
+    margin: 0 auto;
+    position: static;
+  }
+  .sidebar .ctrlBtn .gameBtn {
+    position: static;
+    display: inline-block;
+    height: 30px;
+    width: 60px;
+    margin: 5px;
+  }
+  .sidebar .message {
+    height: 40px;
+    margin-top: 0;
+    font-size: 1.5em;
+  }
+  .sidebar .twitter img{
+    width: 20px;
+    height: 20px;
   }
   .game {
     position: static;
-    min-width: 450px;
-    margin: 0 auto;
+    min-width: 300px;
+    max-width: 300px;
+    height: 300px;
+    margin: 30px auto;
   }
 }
