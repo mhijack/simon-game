@@ -1,17 +1,14 @@
 .lightup {
   opacity: 0.4;
 }
-
 h1 {
   font-size: 48px;
 }
-
 .container {
   height: 100%;
   display: flex;
   flex-wrap: wrap;
 }
-
 .sidebar {
   min-width: 280px;
   text-align: center;
@@ -22,11 +19,9 @@ h1 {
   left: 10%;
   display: inline-block;
 }
-
 .sidebar * {
   margin-top: 15px;
 }
-
 .sidebar .checkbox {
   display: inline-block;
   margin-left: 10px;
@@ -39,19 +34,16 @@ h1 {
   color: #131313;
   border-radius: 3px;
 }
-
 .sidebar .checkbox:hover {
   cursor: pointer;
 }
-
 .sidebar .checkbox .check {
   height: 25px;
   font-size: 22px;
   position: relative;
   top: -7px;
 }
-
-.gameBtn {
+.sidebar .gameBtn {
   border: 1px solid #b4ff69;
   background-color: #131313;
   color: #e8e8e8;
@@ -70,24 +62,19 @@ h1 {
   font-family: 'Cute Font', sans-serif;
   font-size: 22px;
 }
-
-.gameBtn:hover:disabled {
+.sidebar .gameBtn:hover:disabled {
   cursor: no-drop;
 }
-
-.gameBtn:first-of-type {
+.sidebar .gameBtn:first-of-type {
   margin-top: 40px;
 }
-
-.gameBtn:active {
+.sidebar .gameBtn:active {
   background-color: #b4ff69;
   color: #131313;
 }
-
 .sidebar .twitter {
   margin-top: 66px;
 }
-
 .sidebar img {
   display: block;
   cursor: pointer;
@@ -98,12 +85,10 @@ h1 {
   border: 2px solid #1DA1F2;
   border-radius: 20%;
 }
-
 .sidebar img:hover {
   border: dotted #1DA1F2;
   border-radius: 50%;
 }
-
 .game {
   height: 400px;
   width: 450px;
@@ -115,7 +100,6 @@ h1 {
   left: 15%;
   background-clip: padding-box;
 }
-
 .colorBtn {
   outline: none;
   border: #1c1c1c;
@@ -123,21 +107,42 @@ h1 {
   display: inline-block;
   border-radius: 5px;
 }
-
-.colorBtn:hover:enabled{
+.colorBtn:hover:enabled {
   cursor: pointer;
 }
-
 .colorBtn:active {
   opacity: 0.4;
 }
-
 .highScore {
   color: red;
 }
 
-@media screen and (max-width: 910px) {
-  .game {
+@media screen and (max-width: 845px) {
+  .sidebar {
+    height: 250px;
+    width: 400px;
+    margin: 0 auto;
+    padding-top: 80px;
+    background-color: #1c1c1c;
+    left: 0;
+    top: -8%;
+    display: block;
+  }
 
+  .sidebar * {
+    margin-top: 0px;
+  }
+  .sidebar .gameBtn {
+    top: -20px;
+    left: 37%;
+    margin-top: 10px;
+  }
+  .sidebar .twitter {
+    margin-top: -10px;
+  }
+  .game {
+    position: static;
+    min-width: 450px;
+    margin: 0 auto;
   }
 }
