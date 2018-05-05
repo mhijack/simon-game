@@ -184,7 +184,7 @@ h1 {
   }
 }
 
-@media screen and (max-width: 845px) {
+@media screen and (max-width: 445px) {
   .game {
     margin-top: 0;
   }
