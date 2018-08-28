@@ -2,7 +2,7 @@
 
   '**Windows Square**' clone of the classic Simon Game, as a tribute to Microsoft Windows' color scheme.
 
-  A working demo of this game is available via [codepen](https://codepen.io/mhijack/full/YLxPvq/).
+  The app is served on Firebase.[square-simon-game-on-firebase](https://codepen.io/mhijack/full/YLxPvq/).
 
   ![Windows Square](./pictures/gameOver-screenshot.png?raw=true "Windows Square")
 

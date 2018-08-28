@@ -1,23 +1,6 @@
-import React, {
-	Component
-} from 'react';
+import React, { Component } from 'react';
 import twitterLogo from './assets/twitter.png';
 import './Game.css';
-
-// # TODO
-
-//  1. ! present button presses to follow
-//  2. ! if clicked `color !== this.state.sequence[stepCount]`, report error (stepCount incremented by 1 at each click, and reset if everything's okay)
-//  3. ! when color button is clicked, 1 play sound 2 log color
-//  4. ! if pressed wrong button, restart series (with same sequence)
-//  5. ! start game with one additional color in sequence
-//  6. end game:
-//  1. show twitter share info
-//  2. set high score
-//  3.
-
-// fix strict mode bug
-// display game message (wrong input, starting, etc.)
 
 const GREEN = '#7cbb00';
 const RED = '#f65314';
