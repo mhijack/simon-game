@@ -2,7 +2,7 @@
 
   '**Windows Square**' clone of the classic Simon Game, as a tribute to Microsoft Windows' color scheme.
 
-  The app is served on Firebase.[square-simon-game-on-firebase](https://codepen.io/mhijack/full/YLxPvq/).
+  The app is served on 🔥 [Firebase](https://square-simon-game.firebaseapp.com/).
 
   ![Windows Square](./pictures/gameOver-screenshot.png?raw=true "Windows Square")
 
