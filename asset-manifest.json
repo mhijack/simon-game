@@ -1,0 +1,14 @@
+{
+  "main.css": "/simon-game/static/css/main.51f35adb.chunk.css",
+  "main.js": "/simon-game/static/js/main.60cde81b.chunk.js",
+  "main.js.map": "/simon-game/static/js/main.60cde81b.chunk.js.map",
+  "static/js/1.901d1c6b.chunk.js": "/simon-game/static/js/1.901d1c6b.chunk.js",
+  "static/js/1.901d1c6b.chunk.js.map": "/simon-game/static/js/1.901d1c6b.chunk.js.map",
+  "runtime~main.js": "/simon-game/static/js/runtime~main.ce1747dc.js",
+  "runtime~main.js.map": "/simon-game/static/js/runtime~main.ce1747dc.js.map",
+  "static/media/twitter.png": "/simon-game/static/media/twitter.2c64644f.png",
+  "static/css/main.51f35adb.chunk.css.map": "/simon-game/static/css/main.51f35adb.chunk.css.map",
+  "index.html": "/simon-game/index.html",
+  "precache-manifest.31aadeaa458876987bef8898e8607b7e.js": "/simon-game/precache-manifest.31aadeaa458876987bef8898e8607b7e.js",
+  "service-worker.js": "/simon-game/service-worker.js"
+}
